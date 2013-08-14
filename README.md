@@ -24,10 +24,10 @@ How to use LBE ?
 ===========================
 Some basic step are:<br>
 1) Clone the repository<br>
-2) Got to that directory<br>
+2) Go to the LBE directory on your system<br>
 3) Use make to compile and run<br>
 
-<code>
+<code><br>
 git clone https://github.com/GreatDevelopers/LBE.git<br>
 cd LBE<br>
 make<br>
