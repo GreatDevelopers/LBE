@@ -10,7 +10,7 @@ Prerequisite
    <code>
    sudo apt-add-repository ppa:pgquiles/wt<br>
    sudo apt-get update<br>
-   sudo apt-get install witty <br>
+   sudo apt-get install witty* <br>
    </code>
 
 2) Installing g++<br>
