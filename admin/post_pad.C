@@ -45,7 +45,14 @@ PostPad :: PostPad (WContainerWidget *parent)
     submitPost = new WPushButton("Submit", this);
     submitPost->clicked().connect(this,&PostPad::getPost);
     postContent.connect(this, &PostPad::storePost);
+
+    dateContainer = new WContainerWidget(this);
+    dateEdit = new WLineEdit(dateContainer);
+    date = new WDatePicker(dateEdit, dateContainer);
+    date->setDate(WDate::currentServerDate());
+
 }
+
 void PostPad :: NewCat()
 {
   {
@@ -58,6 +65,7 @@ void PostPad :: NewCat()
   categoryContainer->clear();
   getCategory();
 }
+
 void PostPad :: getPost()
 {   
     strm<<postContent.createCall("editor.getElement('previewer').getElementById('epiceditor-preview').innerHTML");
@@ -81,6 +89,7 @@ void PostPad :: storePost(std::string postContentStr)
        newPost->postName    = postTitle->text().toUTF8();
        newPost->postContent = postContentStr;
        newPost->permalink   = "/" + postLink->text().toUTF8();
+       newPost->postDate    = dateEdit->text().toUTF8();
        postPtr = session_.add(newPost);
        catPtr = session_.add(new Category);
        catPtr.modify()->checkedcat = ss.str();
@@ -96,6 +105,7 @@ void PostPad :: storePost(std::string postContentStr)
        postPtr.modify()->postName = postTitle->text().toUTF8();
        postPtr.modify()->postContent = postContentStr;
        postPtr.modify()->permalink = "/" + postLink->text().toUTF8();
+       postPtr.modify()->postDate = dateEdit->text().toUTF8();
        catPtr.modify()->checkedcat = ss.str();
        postPtr.modify()->categories.insert(catPtr);
        t.commit();
@@ -106,13 +116,13 @@ void PostPad :: getCategory()
 {
 
     new WText("Categories",categoryContainer);
-    new WBreak(this);
         {
           dbo::Transaction T(session_);
           dbo::collection <dbo::ptr<Category> > cat_Ptr = session_.find<Category>();
           for(auto i: cat_Ptr)
           {
                 checkbox = new WCheckBox(i->categoryname, categoryContainer);
+                categoryContainer->addWidget(new WBreak());
                 checked_cat.push_back(checkbox);
           }
           T.commit();

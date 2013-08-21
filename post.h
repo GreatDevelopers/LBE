@@ -18,18 +18,21 @@ namespace dbo = Wt::Dbo;
 
 class Post;
 class Category;
+
 typedef dbo::collection< dbo::ptr<Post> > PostCollection;
 typedef dbo::collection< dbo::ptr<Category> > CategoryCollection;
+
 class Post {
-public: string postName, postContent, permalink;
+public: string postName, postContent, permalink, postDate;
 
 	dbo::collection <dbo::ptr<Category> > categories;
 	template<class Action>
 	void persist(Action& a) {
 	dbo::field(a, postName,    "postname");
+        dbo::field(a, postDate,    "postdate");
 	dbo::field(a, permalink,   "permalink");
 	dbo::field(a, postContent, "postcontent");
-	
+
 	dbo::hasMany(a, categories, dbo::ManyToMany, "post_cat");
 	}
 };

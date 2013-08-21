@@ -1,7 +1,9 @@
 /************************************************************** 
+ FileName:  laka_engine.C
+
  Purpose : main app file of Laka Engine 
 
- Author  : Gauravjeet Singh, Inderpreet Singh, Shaina Sabarwal
+ Authors: Gauravjeet Singh, Shaina Sabarwal, Inderpreet Singh, Amitoj Singh
 
  License : GNU GPL V3
 
@@ -45,7 +47,7 @@ LakaEngine::LakaEngine(const WEnvironment &env)
    postLoop = new PostLoop(container);
    
    headerPanel = new WPanel(root());
-   headerPanel->setTitle("Login/Sign up");
+   headerPanel->setTitle("Admin Section");
    headerPanel->setCentralWidget(headerContainer);
    headerPanel->setCollapsible(true);
    headerPanel->setCollapsed(false);
@@ -57,6 +59,7 @@ LakaEngine::LakaEngine(const WEnvironment &env)
    main->bindString("tagline",    taglineString);
    main->bindString("title",      titleString);
    main->bindWidget("postloop",   postLoop);
+   main->bindWidget("dashboard",  headerPanel);
 
    internalPathChanged().connect(this, &LakaEngine::handlePathChange);
 

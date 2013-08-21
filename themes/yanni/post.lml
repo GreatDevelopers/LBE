@@ -1,5 +1,6 @@
-<div class="postName">
-<h1>${post-name}</h1>
-<p>${post-content}</p>
+<div class="post id_single-post">
+<h2 class="post-title id_single-post-title">${post-name}</h2>
+<div class="post-content id_single-post-content">${post-content}</div>
+<div class="post-date id_single-post-date">${post-date}</div>
 </div>
 

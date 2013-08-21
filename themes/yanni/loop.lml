@@ -1,11 +1,15 @@
-<div class="post-title">
-<h2>${post-title}</h2>
-</div>
+
+<div class="post">
+<h2 class="post-title">${post-title}</h2>
+
 
 <div class="post-content">
-<p>${post-content}</p>
+${post-content}
 </div>
 
-<div class="categories">
-<p>${categories}</p>
+<div class="post-date">
+${post-date}
 </div>
+
+</div>
+

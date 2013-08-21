@@ -4,7 +4,7 @@ Filename: laka_engine.h
 
 Description: Header file for the main file of laka_engine
 
-Authors: Gauravjeet Singh, Inderpreet Singh, Shaina Sabarwal
+Authors: Gauravjeet Singh, Shaina Sabarwal, Inderpreet Singh, Amitoj Singh
 
 License: GNU GPL V3
 

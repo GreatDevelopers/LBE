@@ -21,6 +21,7 @@ License: GNU GPL V3
 #include <Wt/WJavaScript>
 #include <Wt/WTextEdit>
 #include <Wt/WCheckBox>
+#include <Wt/WDatePicker>
 #include <sstream>
 
 #include "../post.h"
@@ -54,10 +55,10 @@ public:
     stringstream ss; 
     Session session_;
 private:
-    //! Container to hold the editor, and the category menu
-    WContainerWidget *postEditor, *categoryContainer;
-    //! LineEdit for title of post
-    WLineEdit *postTitle;
+    //! Container to hold the editor, date and the category menu
+    WContainerWidget *postEditor, *categoryContainer, *dateContainer;
+    //! LineEdit for title of post and date
+    WLineEdit *postTitle, *dateEdit;
     //! Button, when fired starts function NewCat()
     WPushButton *save_but;
     //! Button, when fired starts function getPost()
@@ -72,6 +73,8 @@ private:
     dbo::ptr<Post> postPtr;
     //! Dbo pointer to point to the last published post
     dbo::ptr<Category> catPtr;
+    //! Date picker for adding date to each post
+    WDatePicker *date;
     //! JSignal to interact with C++ and Javascript events
     /*!
         Basically it helps in getting all the content from editor that are in a specific html id and store them in string

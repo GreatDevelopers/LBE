@@ -1,0 +1,61 @@
+@import url(http://fonts.googleapis.com/css?family=Oswald);
+@import url(http://fonts.googleapis.com/css?family=Lato);
+
+.titlebar img
+{
+width:32px;
+margin-top:3px;
+}
+
+.titlebar > img:hover
+{
+width:34px;
+}
+
+.Wt-info
+{
+font-size:14px;
+color:#333;
+}
+
+.Wt-fields input
+{
+display:block;
+}
+
+.Wt-form
+{
+margin-left:35px;
+}
+
+.Wt-auth-logged-in
+{
+width:100px;
+margin-left:auto;
+}
+
+.Wt-buttons button, .Wt-auth-logged-in button
+{
+font-size:15px;
+border:1px solid #131313;
+cursor:pointer;
+padding:5px;
+}
+
+.Wt-auth-registration
+{
+background-color:#eee;
+padding:50px;
+width:300px;
+border:1px solid #131313;
+font-family:Oswald, sans-serif;
+}
+
+.Wt-datepicker
+{
+border:4px solid #000;
+background-color:#fff;
+font-family:Lato , sans-serif;
+cursor:pointer;
+padding:10px;
+}

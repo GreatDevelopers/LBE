@@ -3,6 +3,9 @@
 <h1 class="id-blog-title big-title" >${title}</h1>
 <p>${tagline}</p>
 </div>
+<div class="dashboard">
+${dashboard}
+</div>
 </div>
 <div class="id-post-container">
 ${postloop}
