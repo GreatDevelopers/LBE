@@ -4,7 +4,7 @@ CategoryPannel::CategoryPannel(WContainerWidget *parent):WContainerWidget(parent
 {
 	categorycontainer = new WContainerWidget(this);
 	new WText("categories coming soon", categorycontainer);
-	{
+/*	{
 	  dbo::Transaction t(session_);
 	  cat_pannel = session_.find<Post>();
 	  for(auto k: cat_pannel)
@@ -14,5 +14,5 @@ CategoryPannel::CategoryPannel(WContainerWidget *parent):WContainerWidget(parent
 		categorycontainer->addWidget(new WBreak());
 	  } 
 	  t.commit();
-	}
+	}*/
 }

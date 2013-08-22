@@ -40,16 +40,19 @@ void PostLoop::theLoop()
           contentStream.str("");
           
           contentStream<<(i)->postContent;
-	  for(auto k:i->categories)
-	  cat_str = (k)->checkedcat;
-          
+	  for(auto k:i->categories){
+	  cat_str<<(k)->categoryname;
+          }
+
+          cout<<"_____categories___"<<cat_str.str()<<endl;
 	  postText = new WText(contentStream.str());
-	  postCat = new WText(cat_str);
+	  postCat = new WText(cat_str.str());
 	  WTemplate* loop = new WTemplate(postContainer);
 	  loop->setTemplateText(loopTemplate);
 	  loop->bindWidget("post-title",   singlePostName);
 	  loop->bindWidget("post-content", postText);
-	  loop->bindWidget("categories", postCat);
+	  loop->bindString("categories", cat_str.str());
+          loop->bindString("post-date", i->postDate);
         }
 }
 
@@ -65,7 +68,8 @@ void PostLoop::handlePath()
     dbo::ptr<Post> postPtr = session_.find<Post>().where("permalink = ?").bind(postPath);
     singlePostTemplate->bindString("post-name",    postPtr->postName);
     singlePostTemplate->bindString("post-content", postPtr->postContent);
-    singlePostTemplate->bindString("categories", cat_str);
+    singlePostTemplate->bindString("categories", cat_str.str());
+    singlePostTemplate->bindString("post-date", postPtr->postDate);
     t.commit();
    }
 }

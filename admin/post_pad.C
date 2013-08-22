@@ -76,12 +76,7 @@ void PostPad :: storePost(std::string postContentStr)
 {
     if(!published)
     {
-     for(auto j: checked_cat)
-      {
-	if(j->isChecked()) {
-	string_cat.push_back(j->text().toUTF8());}
-      }
-	copy(string_cat.begin(), string_cat.end(), ostream_iterator<string>(ss,"\n"));
+	//copy(string_cat.begin(), string_cat.end(), ostream_iterator<string>(ss,"\n"));
 
     {
        dbo::Transaction t(session_);	
@@ -91,11 +86,24 @@ void PostPad :: storePost(std::string postContentStr)
        newPost->permalink   = "/" + postLink->text().toUTF8();
        newPost->postDate    = dateEdit->text().toUTF8();
        postPtr = session_.add(newPost);
-       catPtr = session_.add(new Category);
+      /* catPtr = session_.add(new Category);
        catPtr.modify()->checkedcat = ss.str();
-       postPtr.modify()->categories.insert(catPtr);
+       postPtr.modify()->categories.insert(catPtr);*/
        t.commit();
       }
+      
+     for(auto j: checked_cat)
+      {
+	if(j->isChecked()) {
+	//string_cat.push_back(j->text().toUTF8());}
+         {
+          dbo::Transaction t(session_);
+          catPtr = session_.find<Category>().where("categoryname = ?").bind(j->text().toUTF8());
+          postPtr.modify()->categories.insert(catPtr);
+          t.commit();
+         }
+        }
+       }
       published = true;
     }
     else
@@ -106,8 +114,8 @@ void PostPad :: storePost(std::string postContentStr)
        postPtr.modify()->postContent = postContentStr;
        postPtr.modify()->permalink = "/" + postLink->text().toUTF8();
        postPtr.modify()->postDate = dateEdit->text().toUTF8();
-       catPtr.modify()->checkedcat = ss.str();
-       postPtr.modify()->categories.insert(catPtr);
+       //catPtr.modify()->checkedcat = ss.str();
+       //postPtr.modify()->categories.insert(catPtr);
        t.commit();
       }
     }
