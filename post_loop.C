@@ -15,13 +15,13 @@ License GNU GPL V3
 
 #include <Wt/WLink>
 
-string loopTemplate;
-string postTemplate;
+string loopTemplate, postTemplate;
 
 PostLoop::PostLoop(WContainerWidget *parent)
-    :WContainerWidget(parent)
+         :WContainerWidget(parent)
 {
-    postContainer = new WContainerWidget(this);
+    postContainer      = new WContainerWidget(this);
+    categoryCollection = new WContainerWidget(this);
     {
       dbo::Transaction T(session_);
       allPosts = session_.find<Post>();
@@ -33,43 +33,81 @@ PostLoop::PostLoop(WContainerWidget *parent)
 void PostLoop::theLoop()
 {
      handleThemeFile();
-  
+ 
      for (auto i:allPosts)
-	{
-          singlePostName = new WAnchor(WLink(WLink::InternalPath,(i)->permalink), (i)->postName, postContainer);
-          contentStream.str("");
-          
-          contentStream<<(i)->postContent;
-	  for(auto k:i->categories){
-	  cat_str<<(k)->categoryname;
-          }
+     {
+       singlePostName = new WAnchor(WLink(WLink::InternalPath,(i)->permalink), (i)->postName, postContainer);
 
-          cout<<"_____categories___"<<cat_str.str()<<endl;
-	  postText = new WText(contentStream.str());
-	  postCat = new WText(cat_str.str());
-	  WTemplate* loop = new WTemplate(postContainer);
-	  loop->setTemplateText(loopTemplate);
-	  loop->bindWidget("post-title",   singlePostName);
-	  loop->bindWidget("post-content", postText);
-	  loop->bindString("categories", cat_str.str());
-          loop->bindString("post-date", i->postDate);
-        }
+       WTemplate* loop = new WTemplate(postContainer);
+       loop->setTemplateText(loopTemplate);
+       loop->bindString("post-date",    i->postDate);
+       loop->bindWidget("post-title",   singlePostName);
+       loop->bindString("post-content", i->postContent);
+
+       for(auto k:i->categories)
+       {
+       new WAnchor(WLink(WLink::InternalPath, k->categoryLink), k->categoryname + " ", postContainer);
+       }
+   }
+
 }
 
 void PostLoop::handlePath()
 {
+   pathString = WApplication::instance()->internalPath();
    postContainer->clear();
-   singlePostTemplate = new WTemplate(this);
-   singlePostTemplate->setTemplateText(postTemplate);
 
-   postPath = WApplication::instance()->internalPath();
+   try 
+   {
+    {
+     dbo::Transaction t(session_);
+     dbo::ptr<Post> postPtr = session_.find<Post>().where("permalink = ?").bind(pathString);
+     filterPosts.insert(postPtr);
+     t.commit();
+    }
+   }
+   catch(std::exception &e)
+   {
+    {
+     dbo::Transaction t(session_);
+     dbo::ptr<Category> categoryPtr = session_.find<Category>().where("categoryLink = ?").bind(pathString);
+     filterPosts = categoryPtr->posts;
+     t.commit();
+    }
+   } 
+   
+    for(auto p : filterPosts)
+    {
+    singlePostTemplate = new WTemplate(this);
+    singlePostTemplate->setTemplateText(postTemplate);
+    singlePostTemplate->bindString("post-name",    p->postName);
+    singlePostTemplate->bindString("post-content", p->postContent);
+    singlePostTemplate->bindString("post-date",    p->postDate);
+    } 
+}
+
+/*
+void PostLoop::categoryFilter()
+{
+   postContainer->clear();
+   new WText("<h2>" + pathString + "</h2>", postContainer);
    {
     dbo::Transaction t(session_);
-    dbo::ptr<Post> postPtr = session_.find<Post>().where("permalink = ?").bind(postPath);
-    singlePostTemplate->bindString("post-name",    postPtr->postName);
-    singlePostTemplate->bindString("post-content", postPtr->postContent);
-    singlePostTemplate->bindString("categories", cat_str.str());
-    singlePostTemplate->bindString("post-date", postPtr->postDate);
+    dbo::ptr<Category> categoryPtr = session_.find<Category>().where("categoryLink = ?").bind(pathString);
+     int i = 1;
+    for (auto x: categoryPtr->posts)
+    {
+      cout<<"___"<<i<<"___"<<x->postName<<"____";
+
+      WAnchor *postLink = new WAnchor(WLink(WLink::InternalPath, "/"+x->postName), x->postName, postContainer);
+      WTemplate *filterLoop = new WTemplate(this);
+      filterLoop->setTemplateText(loopTemplate);
+      filterLoop->bindString("post-date",    x->postDate);
+      filterLoop->bindWidget("post-title",   postLink);
+      filterLoop->bindString("post-content", x->postContent);
+      
+      i++;
+    }
     t.commit();
-   }
-}
+    }
+}*/

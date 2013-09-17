@@ -30,17 +30,7 @@ PostPad :: PostPad (WContainerWidget *parent)
     postEditor = new WContainerWidget(this);
     postEditor->setId("epiceditor");
 
-    categoryContainer = new WContainerWidget(this);
-    
-    getCategory();
-
-    new WBreak(this);    
-    new WText("Add New ", this);
-    NewCategory = new WLineEdit(this);
-
-    save_but = new WPushButton("Save", this);
-    save_but->clicked().connect(this, &PostPad::NewCat);
-    new WBreak(this);
+    new CategoryWidget(this);
 
     submitPost = new WPushButton("Submit", this);
     submitPost->clicked().connect(this,&PostPad::getPost);
@@ -53,19 +43,6 @@ PostPad :: PostPad (WContainerWidget *parent)
 
 }
 
-void PostPad :: NewCat()
-{
-  {
-	dbo::Transaction T(session_);
-	Category *cat = new Category();
-        cat->categoryname = NewCategory->text().toUTF8();
-        dbo::ptr <Category> catPtr = session_.add(cat);
-	T.commit();
-  }
-  categoryContainer->clear();
-  getCategory();
-}
-
 void PostPad :: getPost()
 {   
     strm<<postContent.createCall("editor.getElement('previewer').getElementById('epiceditor-preview').innerHTML");
@@ -76,8 +53,6 @@ void PostPad :: storePost(std::string postContentStr)
 {
     if(!published)
     {
-	//copy(string_cat.begin(), string_cat.end(), ostream_iterator<string>(ss,"\n"));
-
     {
        dbo::Transaction t(session_);	
        Post *newPost = new Post();
@@ -86,24 +61,8 @@ void PostPad :: storePost(std::string postContentStr)
        newPost->permalink   = "/" + postLink->text().toUTF8();
        newPost->postDate    = dateEdit->text().toUTF8();
        postPtr = session_.add(newPost);
-      /* catPtr = session_.add(new Category);
-       catPtr.modify()->checkedcat = ss.str();
-       postPtr.modify()->categories.insert(catPtr);*/
        t.commit();
-      }
-      
-     for(auto j: checked_cat)
-      {
-	if(j->isChecked()) {
-	//string_cat.push_back(j->text().toUTF8());}
-         {
-          dbo::Transaction t(session_);
-          catPtr = session_.find<Category>().where("categoryname = ?").bind(j->text().toUTF8());
-          postPtr.modify()->categories.insert(catPtr);
-          t.commit();
-         }
-        }
-       }
+    }
       published = true;
     }
     else
@@ -114,26 +73,20 @@ void PostPad :: storePost(std::string postContentStr)
        postPtr.modify()->postContent = postContentStr;
        postPtr.modify()->permalink = "/" + postLink->text().toUTF8();
        postPtr.modify()->postDate = dateEdit->text().toUTF8();
-       //catPtr.modify()->checkedcat = ss.str();
-       //postPtr.modify()->categories.insert(catPtr);
        t.commit();
       }
     }
-}
-void PostPad :: getCategory()
-{
 
-    new WText("Categories",categoryContainer);
-        {
-          dbo::Transaction T(session_);
-          dbo::collection <dbo::ptr<Category> > cat_Ptr = session_.find<Category>();
-          for(auto i: cat_Ptr)
-          {
-                checkbox = new WCheckBox(i->categoryname, categoryContainer);
-                categoryContainer->addWidget(new WBreak());
-                checked_cat.push_back(checkbox);
-          }
-          T.commit();
+     for(auto j: allCategories)
+     {
+	      if(j->isChecked()) 
+         {
+            {
+             dbo::Transaction t(session_);
+             catPtr = session_.find<Category>().where("categoryname = ?").bind(j->text().toUTF8());
+             postPtr.modify()->categories.insert(catPtr);
+             t.commit();
+            }
         }
+     }
 }
-

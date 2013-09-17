@@ -26,6 +26,7 @@ License: GNU GPL V3
 
 #include "../post.h"
 #include "../global.h"
+#include "category_widget.h"
 
 using namespace Wt;
 using namespace std;
@@ -43,32 +44,17 @@ public:
     void storePost(std::string postContent);
     //! Function to get the post from editor to string
     void getPost();
-    //! Function to get the categories 
-    void getCategory();
-    //! Function to add new categories into Category table
-    void NewCat();
-    //! Vector of check boxes
-    vector <WCheckBox *> checked_cat;
-    //! vector of strings to store checkedboxex texts
-    vector <string> string_cat;   
-    //! string stream to copy the vector content into string stream
-    stringstream ss; 
+   
     Session session_;
 private:
     //! Container to hold the editor, date and the category menu
-    WContainerWidget *postEditor, *categoryContainer, *dateContainer;
+    WContainerWidget *postEditor, *dateContainer;
     //! LineEdit for title of post and date
     WLineEdit *postTitle, *dateEdit;
-    //! Button, when fired starts function NewCat()
-    WPushButton *save_but;
     //! Button, when fired starts function getPost()
     WPushButton *submitPost;
     //! LineEdit for the permalink of post
     WLineEdit *postLink;
-    //! LineEdit for new category
-    WLineEdit *NewCategory;
-    //! Checkboxes to show categories
-    WCheckBox *checkbox;
     //! Dbo pointer to point to the last published post
     dbo::ptr<Post> postPtr;
     //! Dbo pointer to point to the last published post
@@ -80,7 +66,7 @@ private:
         Basically it helps in getting all the content from editor that are in a specific html id and store them in string
     */
     JSignal<std::string> postContent;
-
+  
     std::stringstream strm; 
     //!bool variable to indicate whether the post is published or not
     bool published;

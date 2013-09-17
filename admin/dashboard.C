@@ -18,6 +18,5 @@ dashboard::dashboard(WContainerWidget *parent):WContainerWidget(parent)
      adminTab = new WTabWidget(defaultContainer);
      adminTab->addTab(new PostPad(defaultContainer), "add-post", WTabWidget::PreLoading);
      adminTab->addTab(new settingPannel(defaultContainer), "settings", WTabWidget::PreLoading);
-     adminTab->addTab(new CategoryPannel(defaultContainer), "Categories", WTabWidget::PreLoading);
    }
 

@@ -25,7 +25,7 @@ typedef dbo::collection< dbo::ptr<Category> > CategoryCollection;
 class Post {
 public: string postName, postContent, permalink, postDate;
 
-	dbo::collection <dbo::ptr<Category> > categories;
+   CategoryCollection categories;
 	template<class Action>
 	void persist(Action& a) {
 	dbo::field(a, postName,    "postname");
@@ -33,20 +33,20 @@ public: string postName, postContent, permalink, postDate;
 	dbo::field(a, permalink,   "permalink");
 	dbo::field(a, postContent, "postcontent");
 
-	dbo::hasMany(a, categories, dbo::ManyToMany, "post_cat");
+	dbo::hasMany(a, categories, dbo::ManyToMany, "postCategories");
 	}
 };
 
 class Category {
-public: string categoryname, checkedcat;
+public: string categoryname, categoryLink;
 
-	dbo::collection <dbo::ptr<Post> > posts;
+	PostCollection posts;
 	template<class Action>
 	void persist(Action& a) {
 	dbo::field(a, categoryname, "categoryname");
-	dbo::field(a, checkedcat, "checkedcat");
+	dbo::field(a, categoryLink, "categoryLink");
 
-	dbo::hasMany(a, posts, dbo::ManyToMany, "post_cat");
+	dbo::hasMany(a, posts, dbo::ManyToMany, "postCategories");
 	}
 };
 #endif

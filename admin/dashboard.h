@@ -14,7 +14,6 @@ License: GNU GPL V3
 
 #include "setting_pannel.h"
 #include "post_pad.h"
-#include "category_pannel.h"
 
 #include <Wt/WTabWidget>
 #include <Wt/WContainerWidget>
