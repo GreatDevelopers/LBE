@@ -48,6 +48,7 @@ void PostLoop::theLoop()
 	  loop->bindWidget("post-title",   singlePostName);
 	  loop->bindWidget("post-content", postText);
 	  loop->bindString("post-date",    i->postDate);
+     loop->bindString("post-time",    i->timeString);
         }
 }
 
@@ -64,6 +65,7 @@ void PostLoop::handlePath()
     singlePostTemplate->bindString("post-name",    postPtr->postName);
     singlePostTemplate->bindString("post-content", postPtr->postContent);
     singlePostTemplate->bindString("post-date",    postPtr->postDate);
+    singlePostTemplate->bindString("post-time",    postPtr->timeString);
     t.commit();
    }
 }

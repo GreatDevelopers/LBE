@@ -11,5 +11,9 @@ ${post-content}
 ${post-date}
 </div>
 
+<div class="post-time">
+${post-time}
+</div>
+
 </div>
 

@@ -33,7 +33,13 @@ PostPad :: PostPad (WContainerWidget *parent)
     submitPost = new WPushButton("Submit", this);
     submitPost->clicked().connect(this,&PostPad::getPost);
     postContent.connect(this, &PostPad::storePost);
-    
+    timeContainer= new WContainerWidget(this);
+    time = new WTime();
+    timeString=time->currentServerTime().toString("hh:mm:ss AP");
+    timeEdit=new WLineEdit(this);
+    time->fromString(timeString,"hh:mm:ss AP");
+    timeEdit->setText(timeString);
+
     dateContainer = new WContainerWidget(this);
     dateEdit = new WLineEdit(dateContainer);
     date = new WDatePicker(dateEdit, dateContainer);
@@ -58,6 +64,7 @@ void PostPad :: storePost(std::string postContentStr)
        newPost->postContent = postContentStr;
        newPost->permalink   = "/" + postLink->text().toUTF8();
        newPost->postDate    = dateEdit->text().toUTF8();
+       newPost->timeString  = timeString.toUTF8();
        postPtr = session_.add(newPost);
        t.commit();
       }
@@ -71,6 +78,7 @@ void PostPad :: storePost(std::string postContentStr)
        postPtr.modify()->postContent = postContentStr;
        postPtr.modify()->permalink = "/" + postLink->text().toUTF8();
        postPtr.modify()->postDate = dateEdit->text().toUTF8();
+       postPtr.modify()->timeString = timeString.toUTF8();
        t.commit();
       }
     }

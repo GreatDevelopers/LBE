@@ -21,6 +21,7 @@ License: GNU GPL V3
 #include <Wt/WJavaScript>
 #include <Wt/WTextEdit>
 #include <Wt/WDatePicker>
+#include <Wt/WTime>
 #include <sstream>
 
 #include "../post.h"
@@ -47,9 +48,9 @@ public:
     Session session_;
 private:
     //! Container to hold the editor
-    WContainerWidget *postEditor, *dateContainer;
+    WContainerWidget *postEditor, *dateContainer,*timeContainer;
     //! LineEdit for title of post
-    WLineEdit *postTitle, *dateEdit;
+    WLineEdit *postTitle, *dateEdit,*timeEdit;
     //! Button, when fired starts function getPost()
     WPushButton *submitPost;
     //! LineEdit for the permalink of post
@@ -58,6 +59,10 @@ private:
     dbo::ptr<Post> postPtr;
     //! Date Picker for adding date to each post
     WDatePicker *date;
+    //! Time class for Default Time
+    WTime *time;
+    //!  timeString is a WString variable
+   WString timeString;
 
     //! JSignal to interact with C++ and Javascript events
     /*!

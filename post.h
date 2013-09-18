@@ -21,15 +21,16 @@ class Post;
 typedef dbo::collection< dbo::ptr<Post> > PostCollection;
 
 class Post {
-public: string postName, postContent, permalink, postDate;
+public: string postName, postContent, permalink, postDate,timeString;
 
 	template<class Action>
 	void persist(Action& a) {
 	dbo::field(a, postName,    "postname");
+        dbo::field(a, timeString,    "posttime");
 	dbo::field(a, postDate,    "postdate");
 	dbo::field(a, permalink,   "permalink");
 	dbo::field(a, postContent, "postcontent");
-	}
+	} 
 };
 
 #endif
