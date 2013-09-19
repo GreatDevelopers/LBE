@@ -65,7 +65,7 @@ private:
         WText *postText;
         //! WText for displaying categories
         WText *postCat;
-        //! Anchor for title of post and see more tag
-        WAnchor *singlePostName;
+        //! Anchor for title of post and category
+        WAnchor *singlePostName, *category;
 };
 #endif

@@ -64,7 +64,7 @@ void CategoryWidget::newCategory()
       dbo::Transaction t(session_);
       Category *newCategory = new Category();
       newCategory->categoryname = categoryEdit->text().toUTF8();
-      newCategory->categoryLink = "/Category-archives-" + categoryEdit->text().toUTF8();
+      newCategory->categoryLink = "/Category-archives:" + categoryEdit->text().toUTF8();
       dbo::ptr<Category> catPtr = session_.add(newCategory);
       t.commit();
    }
