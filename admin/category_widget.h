@@ -4,7 +4,7 @@ Filename: post_pad.C
 
 Description: widget of admin panel that adds posts
 
-Authors: Gauravjeet Singh, Inderpreet Singh, Shaina Sabarwal
+Authors: Gauravjeet Singh, Shaina Sabarwal, Inderpreet Singh, Amitoj Singh
 
 License: GNU GPL V3
 

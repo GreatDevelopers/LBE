@@ -3,7 +3,7 @@ FileName: post_loop.h
 
 Description: Contains Declarations for post loop
 
-Authors: Gauravjeet Singh, Shaina Sabarwal, Inderpreet SIngh
+Authors: Gauravjeet Singh, Shaina Sabarwal, Inderpreet Singh, Amitoj Singh
 
 License: GNU GPL V3
 

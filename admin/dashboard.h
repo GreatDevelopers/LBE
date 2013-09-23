@@ -4,7 +4,7 @@ Filename: dashboard.h
 
 Description: Containes declarations for dashboard widgets
 
-Authors: Gauravjeet Singh, Inderpreet Singh, Shaina Sabaarwal
+Authors: Gauravjeet Singh, Shaina Sabarwal, Inderpreet Singh, Amitoj Singh
 
 License: GNU GPL V3
 

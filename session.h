@@ -3,7 +3,7 @@ FileName: session.h
 *
 Description: Contains Declarations of class Session
 *
-Authors: Gauravjeet Singh, Shaina Sabarwal, Inderpreet Singh
+Authors: Gauravjeet Singh, Shaina Sabarwal, Inderpreet Singh, Amitoj Singh
 *
 License: GNU GPL V3
 *

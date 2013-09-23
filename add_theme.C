@@ -5,7 +5,7 @@ FileName: add_theme.C
 Description: Holds the definition of function to 
              read theme file
 
-Author: Shaina Sabarwal, Inderpreet Singh, Gauravjeet Singh
+Authors: Gauravjeet Singh, Shaina Sabarwal, Inderpreet Singh, Amitoj Singh
 
 License GNU GPL V3
 

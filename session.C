@@ -7,7 +7,7 @@ Details:
 session.C file contains a definition of class named Session that is inherited 
 from Wt::Dbo::Session, this class provides a common session to be used by all
 
-Author: Gauravjeet Singh, Shaina Sabarwal, Inderpreet Singh
+Authors: Gauravjeet Singh, Shaina Sabarwal, Inderpreet Singh, Amitoj Singh
 
 License: GNU GPL V3
 

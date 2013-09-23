@@ -5,7 +5,7 @@ FileName: add_theme.h
 Description: Holds the declaration of function to 
 	     read theme file
 
-Author: Shaina Sabarwal, Inderpreet Singh, Gauravjeet Singh
+Authors: Gauravjeet Singh, Shaina Sabarwal, Inderpreet Singh, Amitoj Singh
 
 License GNU GPL V3
 

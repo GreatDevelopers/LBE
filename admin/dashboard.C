@@ -4,7 +4,7 @@ Filename: dashboard.C
 
 Description: Provides a admin dashboard 
 
-Authors: Gauravjeet Singh, Inderpreet Singh, Shaina Sabaarwal
+Authors: Gauravjeet Singh, Shaina Sabarwal, Inderpreet Singh, Amitoj Singh
 
 License: GNU GPL V3
 

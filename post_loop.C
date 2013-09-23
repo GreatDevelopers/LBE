@@ -4,7 +4,7 @@ FileName: post_loop.C
 
 Description: Holds the definition of class for posts widget
 
-Author: Gauravjeet Singh, Shaina Sabarwal, Inderpreet Singh
+Authors: Gauravjeet Singh, Shaina Sabarwal, Inderpreet Singh, Amitoj Singh
 
 License GNU GPL V3
 

@@ -5,7 +5,7 @@ Filename: setting_pannel.h
 Description: Containes declarations for settings widget in
              pannel
 
-Authors: Gauravjeet Singh, Inderpreet Singh, Shaina Sabaarwal
+Authors: Gauravjeet Singh, Shaina Sabarwal, Inderpreet Singh, Amitoj Singh
 
 License: GNU GPL V3
 

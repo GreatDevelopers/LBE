@@ -8,7 +8,7 @@ auth.C files contains a definition of class named AuthForm that is inherited
 from WContainer widget, this class is then used in main WApplication for creating 
 an auth form.
 
-Author: Gauravjeet Singh, Shaina Sabarwal, Inderpreet Singh
+Authors: Gauravjeet Singh, Shaina Sabarwal, Inderpreet Singh, Amitoj Singh
 
 License: GNU GPL V3
 

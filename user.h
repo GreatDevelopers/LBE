@@ -3,7 +3,7 @@ FileName: session.h
 *
 Description: File for creating a presistence class for User and mapping authinfo with user. 
 *
-Authors: Gauravjeet Singh, Shaina Sabarwal, Inderpreet Singh
+Authors: Gauravjeet Singh, Shaina Sabarwal, Inderpreet Singh, Amitoj Singh
 *
 License: GNU GPL V3
 *

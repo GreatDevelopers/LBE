@@ -4,7 +4,7 @@ Filename: setting_pannel.C
 
 Description: Provides with a settings widget in admin pannel
 
-Authors: Gauravjeet Singh, Inderpreet Singh, Shaina Sabaarwal
+Authors: Gauravjeet Singh, Shaina Sabarwal, Inderpreet Singh, Amitoj Singh
 
 License: GNU GPL V3
 
