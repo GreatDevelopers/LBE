@@ -87,7 +87,6 @@ void PostLoop::permalinkFilter()
 void PostLoop::categoryFilter()
 {
    postContainer->clear();
-   new WText("<h2>" + pathString + "</h2>", postContainer);
    {
      dbo::Transaction t(session_);
      dbo::ptr<Category> categoryPtr = session_.find<Category>().where("categoryLink = ?").bind(pathString);
