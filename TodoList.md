@@ -3,12 +3,11 @@ TodoList
 
 1) Add more tag<br>
 2) Add author of post<br>
-3) Add the date/time<br>
-4) Add Categories<br>
-5) Enable the category filter<br>
-6) Add featured image with each post<br>
-7) Enables roles like admin, author, guest<br>
-8) Allow commenting of posts
+3) Design a better theme<br>
+4) Plugin support<br>
+5) Add featured image with each post<br>
+6) Enables roles like admin, author, guest<br>
+7) Allow commenting of posts<br>
 
 -----------------------------
 Note to Developers:<br>
