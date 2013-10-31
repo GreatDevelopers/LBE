@@ -1,8 +1,8 @@
 
 all: lakaEngine 
 
-lakaEngine: session.o laka_engine.o auth.o post_loop.o post_pad.o add_theme.o dashboard.o setting_pannel.o category_widget.o  
-	g++ session.o laka_engine.o auth.o post_loop.o post_pad.o add_theme.o dashboard.o setting_pannel.o category_widget.o -o lakaEngine  -I/usr/local/include -L/usr/local/lib -lwthttp -lwt -lboost_regex -lboost_signals -lboost_system -lboost_thread -lboost_filesystem -lboost_date_time -lwtdbo -lwtdbosqlite3
+lakaEngine: session.o laka_engine.o auth.o post_loop.o post_pad.o add_theme.o dashboard.o setting_pannel.o category_widget.o allpost.o 
+	g++ session.o laka_engine.o auth.o post_loop.o post_pad.o add_theme.o dashboard.o setting_pannel.o category_widget.o allpost.o -o lakaEngine  -I/usr/local/include -L/usr/local/lib -lwthttp -lwt -lboost_regex -lboost_signals -lboost_system -lboost_thread -lboost_filesystem -lboost_date_time -lwtdbo -lwtdbosqlite3
 
 session.o: session.C
 	g++ -g -Wall -std=c++0x -c session.C
@@ -30,6 +30,9 @@ dashboard.o: admin/dashboard.C
 
 setting_pannel.o: admin/setting_pannel.C
 	g++ -g -Wall -std=c++0x -c admin/setting_pannel.C
+
+allpost.o: admin/allpost.C
+	g++ -g -Wall -std=c++0x -c admin/allpost.C
 
 clean:
 	 rm -rvf *.o lakaEngine
