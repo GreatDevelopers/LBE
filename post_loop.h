@@ -47,7 +47,7 @@ public:
       void permalinkFilter();
       void categoryFilter();
 
-	   Session session_;
+      session session_;
 private:
 	     //! allPosts is a collection, where all the posts are stored
         PostCollection allPosts;

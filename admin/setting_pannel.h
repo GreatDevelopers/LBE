@@ -48,8 +48,8 @@ private:
 //! Button to save all the changes
      WPushButton *saveButton;
 //! dbo smart pointer that points to user admin 
-     dbo::ptr<User> userPtr;
-     Session session_;
+     dbo::ptr<user> userPtr;
+     session session_;
 };
 
 #endif

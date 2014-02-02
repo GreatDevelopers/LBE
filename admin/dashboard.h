@@ -12,7 +12,7 @@ License: GNU GPL V3
 #ifndef DASHBOARD_H
 #define DASHBOARD_H
 
-#include "setting_pannel.h"
+//#include "setting_pannel.h"
 #include "post_pad.h"
 #include "allpost.h"
 

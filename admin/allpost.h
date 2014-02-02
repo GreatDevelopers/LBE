@@ -35,7 +35,7 @@ public:
    void postDelete();
    //! Function which deletes da post from database
    void deleted();
-   Session session_;
+   session session_;
 private:
    //! vector which show checkBoxes
    vector <WCheckBox*> linkCollection;

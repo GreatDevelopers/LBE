@@ -34,13 +34,6 @@ settingPannel::settingPannel(WContainerWidget *parent):WContainerWidget(parent)
 
 void settingPannel::saveSettings()
 {
-   {
-     dbo::Transaction t(session_);
-     userPtr = session_.find<User>().where("name = ?").bind("admin");
-     userPtr.modify()->title = titleEdit->text().toUTF8();
-     userPtr.modify()->tagline = taglineEdit->text().toUTF8(); 
-     t.commit();
-   }
-   new WText("Settings saved, refresh to see changes", this);
+   new WText("Work in progress", this);
 }
 

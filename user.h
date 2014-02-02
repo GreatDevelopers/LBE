@@ -1,51 +1,48 @@
-/******************************************************
-FileName: session.h
-*
-Description: File for creating a presistence class for User and mapping authinfo with user. 
-*
-Authors: Gauravjeet Singh, Shaina Sabarwal, Inderpreet Singh, Amitoj Singh
-*
-License: GNU GPL V3
-*
-******************************************************/
-
 #ifndef USER_H_
 #define USER_H_
 
 #include <Wt/Dbo/Dbo>
-#include <Wt/Auth/Dbo/AuthInfo>
-/**
-Wt::Dbo is a C++ ORM for making database driven applications with Witty
-*/
+#include <Wt/WString>
+#include <Wt/Dbo/Types>
+#include <Wt/WDateTime>
 
 namespace dbo = Wt::Dbo;
+using namespace Wt;
 
-class User;
+class Token;
 
-/**
-mapping AuthInfo with our User Class and for the ease referring it to as AuthInfo 
-*/
+typedef dbo::collection< dbo::ptr<Token> > Tokens;
 
-typedef Wt::Auth::Dbo::AuthInfo<User> AuthInfo;
+class user{
+public: user();
+	enum Role{
+	Visitor = 0,
+	Admin   = 1
+	};
 
-/**
-Definition of class User
-*/
+	Role role;
+        Tokens authTokens;
+        WString name;
+        std::string password, passwordMethod, passwordSalt;
+        int failedLoginAttempts;
+        Wt::WDateTime lastLoginAttempt;
 
-class User {
-public:
+	template<class Action>
+	void persist(Action& a){	
+		dbo::field(a, name,                "name" );
+                dbo::field(a, role,                "role");
+                dbo::field(a, password,            "password");
+                dbo::field(a, passwordSalt,        "password_salt");
+                dbo::field(a, passwordMethod,      "password_method");
+                dbo::field(a, lastLoginAttempt,    "last_login_attempts");
+                dbo::field(a, failedLoginAttempts, "failed_login_attempts");
+ 
+                dbo::hasMany(a, authTokens, dbo::ManyToOne, "user");
 
-/** 
-adding a persist function, persist function is used to create tables in database,
-*/
-	std::string name, title, tagline;
-	template <class Action>
-	void persist(Action& a)
-	{
-		dbo::field(a, name, "name" );
-                dbo::field(a, title, "title");
-                dbo::field(a, tagline,"tagline");
+
 	}
 };
+
+DBO_EXTERN_TEMPLATES(user);
 
 #endif

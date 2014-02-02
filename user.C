@@ -1,5 +1,10 @@
 #include "user.h"
+#include "token.h"
 
-User::User()
-	:name("unnamed"){}
+DBO_INSTANTIATE_TEMPLATES(user);
+
+user::user()
+     :role(Visitor),
+      failedLoginAttempts(0)
+{ }
 

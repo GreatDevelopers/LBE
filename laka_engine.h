@@ -32,10 +32,10 @@ using namespace Wt;
     It attatches the authentication module, theme module, session to the app.
     It is a class where all the pieces of puzzle stick together.
 */
+
 class LakaEngine : public Wt::WApplication
 {
 public:
-        Session session_; //! a globally shared application wide session object.
 	//! Constructor for LakaEngine class.
 	/*!
 	    Adds the grand parent container division to the front end, adds style, title etc. to the app.
@@ -49,8 +49,6 @@ public:
         void handlePathChange();
         //! Loads the published posts
         void posts();
-        //! Function for viewing things like title and tagline from database
-        void applySettings();
 	
 private:
 	//! Checks whether authPushButton is clicked or not?

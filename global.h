@@ -3,6 +3,6 @@
 
 #include "session.h"
 
-extern Session session_;
+extern session session_;
 
 #endif

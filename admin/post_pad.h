@@ -45,7 +45,7 @@ public:
     //! Function to get the post from editor to string
     void getPost();
    
-    Session session_;
+    session session_;
 private:
     //! Container to hold the editor, date and the category menu
     WContainerWidget *postEditor, *dateContainer;

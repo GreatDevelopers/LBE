@@ -1,106 +1,122 @@
-/************************************************************************
-FileName:  session.C
-
-Description: Holds the definition of class for Application Session
-
-Details:
-session.C file contains a definition of class named Session that is inherited 
-from Wt::Dbo::Session, this class provides a common session to be used by all
-
-Authors: Gauravjeet Singh, Shaina Sabarwal, Inderpreet Singh, Amitoj Singh
-
-License: GNU GPL V3
-
-**************************************************************************/
-
 #include "session.h"
-#include "user.h"
+#include "token.h"
 #include "post.h"
+#include <Wt/Auth/Dbo/AuthInfo>
+#include <Wt/Auth/Dbo/UserDatabase>
 
 #include <Wt/Auth/AuthService>
 #include <Wt/Auth/HashFunction>
 #include <Wt/Auth/PasswordService>
-#include <Wt/Auth/PasswordStrengthValidator>
 #include <Wt/Auth/PasswordVerifier>
 #include <Wt/Auth/GoogleService>
-#include <Wt/Auth/FacebookService>
-#include <Wt/Auth/Dbo/AuthInfo>
-#include <Wt/Auth/Dbo/UserDatabase>
 
-//! Object of class Auth Service and Password Service
-/*!
-   myAuthService is object of class Wt::Auth::AuthService and myPasswordService is a object of Wt::Auth::PasswordService, it takes myAuthService as parameter
-*/
+using namespace Wt;
+
 namespace {
+  const std::string ADMIN_USERNAME = "admin";
+  const std::string ADMIN_PASSWORD = "admin";
 
-	Wt::Auth::AuthService myAuthService;
-	Wt::Auth::PasswordService myPasswordService(myAuthService);
+#ifdef HAVE_CRYPT
+  class UnixCryptHashFunction : public Auth::HashFunction
+  {
+  public:
+    virtual std::string compute(const std::string& msg, 
+				const std::string& salt) const
+    {
+      std::string md5Salt = "$1$" + salt;
+      return crypt(msg.c_str(), md5Salt.c_str());
+    }
+
+    virtual bool verify(const std::string& msg,
+			const std::string& salt,
+			const std::string& hash) const
+    {
+      return crypt(msg.c_str(), hash.c_str()) == hash;
+    }
+
+    virtual std::string name () const {
+      return "crypt";
+    }
+  };
+#endif // HAVE_CRYPT
+
+  Auth::AuthService myAuthService;
+  Auth::PasswordService myPasswordService(myAuthService);
 }
 
-void Session::configureAuth()
+namespace dbo = Wt::Dbo;
+
+session::session()
+	:connection_("laka.db"),
+         users_(*this)
 {
-	myAuthService.setAuthTokensEnabled(true,"logincookie");
-	myAuthService.setEmailVerificationEnabled(true);
 
-	Wt::Auth::PasswordVerifier *verifier = new Wt::Auth::PasswordVerifier();
-	verifier->addHashFunction(new Wt::Auth::BCryptHashFunction(7));
-	myPasswordService.setVerifier(verifier);
-	myPasswordService.setAttemptThrottlingEnabled(true);
-	myPasswordService.setStrengthValidator
-		(new Wt::Auth::PasswordStrengthValidator());
+   connection_.setProperty("show-queries", "true");
+   connection_.setDateTimeStorage(Wt::Dbo::SqlDateTime,
+                                  Wt::Dbo::backend::Sqlite3::PseudoISO8601AsText);
 
+   setConnection(connection_);
+
+   mapClass<user>("user");
+   mapClass<Token>("auth_token");
+   mapClass<Post>("post");
+   mapClass<Category>("category");
+   try {
+       createTables();
+       {
+       dbo::Transaction t(*this);
+         dbo::ptr<user> admin = add(new user());
+         user *a = admin.modify();
+         a->name = ADMIN_USERNAME;
+         a->role = user::Admin;
+
+     Auth::User authAdmin
+       = users_.findWithIdentity(Auth::Identity::LoginName, a->name);
+     myPasswordService.updatePassword(authAdmin, ADMIN_PASSWORD);
+      t.commit();
+      }
+   }
+   catch(std::exception& e){
+       std::cerr<<e.what()<<std::endl;
+       std::cerr<<"Using existing database";
+   }
 }
 
-Session::Session(): connection_("laka.db")
+void session::configureAuth()
 {
-  connection_.setProperty("show-queries", "true");
-
-  setConnection(connection_);
-
-  mapClass<User>("user");
-  mapClass<Post>("post");
-  mapClass<AuthInfo>("auth_info");
-  mapClass<AuthInfo::AuthIdentityType>("auth_identity");
-  mapClass<AuthInfo::AuthTokenType>("auth_token");
-  mapClass<Category> ("category");
-
-  try {
-    createTables();
-    std::cerr << "Created database." << std::endl;
-  } catch (std::exception& e) {
-    std::cerr << e.what() << std::endl;
-    std::cerr << "Using existing database";
-  }
-
-  users_ = new UserDatabase(*this);
+   myAuthService.setAuthTokensEnabled(true, "logincookie");
+   myAuthService.setEmailVerificationEnabled(true);
+   
+   Auth::PasswordVerifier *verifier = new Auth::PasswordVerifier();
+   verifier->addHashFunction(new Auth::BCryptHashFunction(7));
+   myPasswordService.setVerifier(verifier);
+   myPasswordService.setAttemptThrottlingEnabled(true);
 }
 
-Session::~Session()
+dbo::ptr<user> session::userFunc() const
 {
-  delete users_;
+   if(login_.loggedIn())
+      return users_.find(login_.user());
+   else
+      return dbo::ptr<user>();
 }
 
-Wt::Auth::AbstractUserDatabase& Session::users()
+const Wt::Auth::AuthService& session::auth()
 {
-  return *users_;
+   return myAuthService;
 }
 
-dbo::ptr<User> Session::user() const
+Auth::PasswordService *session::passwordAuth() const
 {
-  if (login_.loggedIn()) {
-    dbo::ptr<AuthInfo> authInfo = users_->find(login_.user());
-    return authInfo->user();
-  } else
-    return dbo::ptr<User>();
+  return &myPasswordService;
 }
 
-const Wt::Auth::AuthService& Session::auth()
+Wt::Auth::Login& session::login()
 {
-  return myAuthService;
+   return login_;
 }
 
-const Wt::Auth::PasswordService& Session::passwordAuth()
+BlogUserDatabase& session::users()
 {
-  return myPasswordService;
+   return users_;
 }
-

@@ -50,7 +50,7 @@ WPushButton *saveCategory;
 WLineEdit *categoryEdit;
 //! Checkboxes to show the checkboxes
 WCheckBox* checkbox;
-Session session_;
+session session_;
 dbo::ptr<Category> categoryPointer;
 };
 
