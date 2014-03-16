@@ -12,49 +12,47 @@ License: GNU GPL V3
 
 #include "allpost.h"
 
-string allpostsTemplate;
 allPost::allPost(WContainerWidget *parent)
-       :WContainerWidget(parent)
+       :WContainerWidget(parent),
+	postContent(this, "getPostContent")
 {
     allContainer =new WContainerWidget(this);
     {
        editButton=new WPushButton("Edit",this);
+       linkGroup = new WButtonGroup();
 
        editButton->clicked().connect(this,&allPost::edit);
        deleteButton= new WPushButton("delete",this);
        deleteButton->clicked().connect(this,&allPost::postDelete);
 
        dbo::Transaction T(session_);
-       storedPost=session_.find<Post>();
+       storedPost = session_.find<Post>();
        allLoop();
 
        T.commit();
      }
+    postContent.connect(this, &allPost::update);
 }
 
 void allPost::allLoop()
 {
-    for (auto i:storedPost)
+
+     for (auto i:storedPost)
     {
-      container=new WContainerWidget(this);
-      new WText(i->postName,container);
+    container=new WContainerWidget(this);
+    container->setStyleClass("post-view-admin");
+      (new WText(i->postName,container))->setStyleClass("post-title-admin");
       new WBreak(container);
-      link=new WCheckBox(i->permalink,container);
-       linkCollection.push_back(link);
+      link=new WRadioButton(i->permalink,container);
+      linkGroup->addButton(link);
     }
 }
 
 void allPost::edit()
-{   
-    for(auto k: linkCollection)
-    {
-       if(k->isChecked())
-       {
-          selectedPost = k->text().toUTF8();
-       }
-    }
+{  
+   WRadioButton *selectedbtn = linkGroup->checkedButton(); 
+   selectedPost = selectedbtn->text().toUTF8();
    container->hide();
-    
 {
     dbo::Transaction t(session_);
     dbo::ptr<Post> allPostPtr= session_.find<Post>().where("permalink = ?").bind(selectedPost);
@@ -62,14 +60,31 @@ void allPost::edit()
     updateContainer= new WContainerWidget(this);
     updateName=new WLineEdit(allPostPtr->postName,updateContainer);
     new WBreak(updateContainer);
-    updateContent =new WTextArea(allPostPtr->postContent,updateContainer);
-    updateContent ->setStyleClass("updateContent");
-    new WBreak(updateContainer);
-    updateDate=new WLineEdit(allPostPtr->postDate,updateContainer);
+    //updateContent =new WTextArea(allPostPtr->postContent,updateContainer);
+    //updateContent ->setStyleClass("updateContent");
+    //new WBreak(updateContainer);
+    //updateDate=new WLineEdit(allPostPtr->postDate,updateContainer);
+
+    WApplication::instance()->require("../resources/epic_editor/js/epiceditor.js");
+    std::stringstream strm;
+    strm<<"var editor = new EpicEditor().load();";
+    WApplication::instance()->doJavaScript(strm.str());
+
+    updateContentEditor = new WContainerWidget(this);
+    updateContentEditor->setId("epiceditor");
+
+
     updateButton=new WPushButton("update",updateContainer);
-    updateButton->clicked().connect(this,&allPost::update);
+    updateButton->clicked().connect(this,&allPost::getupdate);
     t.commit();
 }
+}
+
+void allPost::getupdate()
+{ 
+    std::stringstream strm2;
+    strm2<<postContent.createCall("editor.getElement('previewer').getElementById('epiceditor-preview').innerHTML");
+    WApplication::instance()->doJavaScript(strm2.str());  
 }
 
 void allPost::postDelete()
@@ -87,14 +102,9 @@ void allPost::postDelete()
 
 void allPost::deleted()
 {
-      containerDelete->hide();
-      for(auto k: linkCollection)
-      {
-         if(k->isChecked())
-         {
-           selectedPost =k->text().toUTF8();	
-         }
-      }
+     containerDelete->hide();
+     WRadioButton *selectedbtn = linkGroup->checkedButton();
+     string selectedpost = selectedbtn->text().toUTF8();
      new WBreak(this);
      new WText("Post is deleted successfully",this);    
     dbo::Transaction t(session_);
@@ -103,7 +113,7 @@ void allPost::deleted()
     t.commit();
 }
 
-void allPost::update()
+void allPost::update(std::string postupdatestr)
 {
     updateContainer->hide();
  
@@ -111,7 +121,7 @@ void allPost::update()
     dbo::ptr<Post> allPostPtr= session_.find<Post>().where("permalink = ?").bind(selectedPost);
     allPostPtr.modify()->postName    =  updateName->text().toUTF8();
     allPostPtr.modify()->postDate    =  updateDate->text().toUTF8();
-    allPostPtr.modify()->postContent =  updateContent->text().toUTF8();
+    allPostPtr.modify()->postContent =  postupdatestr;
     t.commit();
     new WBreak(this);
     new WText("Post is updated sucessfully",this);

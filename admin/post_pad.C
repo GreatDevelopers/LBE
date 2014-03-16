@@ -23,21 +23,27 @@ PostPad :: PostPad (WContainerWidget *parent)
 
     postTitle = new WLineEdit(this);
     postTitle->setEmptyText("Title of post");
+    postTitle->setStyleClass("textbox");
 
     postLink = new WLineEdit(this);
     postLink->setEmptyText("Permalink");
+    postLink->setStyleClass("textbox");
 
     postEditor = new WContainerWidget(this);
     postEditor->setId("epiceditor");
-
+   
     new CategoryWidget(this);
 
     submitPost = new WPushButton("Submit", this);
     submitPost->clicked().connect(this,&PostPad::getPost);
+    submitPost->setStyleClass("button");
+
     postContent.connect(this, &PostPad::storePost);
 
     dateContainer = new WContainerWidget(this);
     dateEdit = new WLineEdit(dateContainer);
+    dateEdit->setStyleClass("textbox");
+
     date = new WDatePicker(dateEdit, dateContainer);
     date->setDate(WDate::currentServerDate());
 

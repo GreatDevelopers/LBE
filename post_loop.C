@@ -48,8 +48,8 @@ void PostLoop::theLoop()
 
         for(auto k:i->categories)
         {
-          category = new WAnchor(WLink(WLink::InternalPath, k->categoryLink), k->categoryname + " ", categoryCollection);
-          category->setStyleClass("post-content");
+          category = new WAnchor(WLink(WLink::InternalPath, k->categoryLink), k->categoryname + " ", postContainer);
+          category->setStyleClass("category-filter");
         }
      }
 

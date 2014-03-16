@@ -1,6 +1,6 @@
 @import url(http://fonts.googleapis.com/css?family=Oswald);
-
 @import url(http://fonts.googleapis.com/css?family=Lato);
+
 *
 {
 margin:0;
@@ -37,7 +37,7 @@ padding:20px 20px 20px 20px;
 text-shadow:2px 2px rgba(0,0,0,0.7);
 color:#fff;
 text-align:center;
-width:100%;
+width:inherit;
 }
 
 .header > h1
@@ -49,6 +49,7 @@ font-size:4.5rem;
 .header > p
 {
 font-size:1.5rem;
+margin-top:25px;
 }
  
 .post
@@ -63,10 +64,12 @@ font-family:Oswald, sans-serif;
 font-size: 3rem;
 color:#222;
 text-align:center;
+line-height:3.5rem;
 }
 
 .post-content
 {
+padding:5px;
 font-family:'Lato', sans-serif;
 font-size:1rem;
 color:#444;
@@ -117,4 +120,62 @@ min-height:400px;
 .category-container 
 {
  text-align:center 
+}
+
+
+.textbox{
+    border: solid #2c2c2c 1px;
+width: 100px;
+height: 25px;
+margin:5px;
+text-align:center;
+width:150px;
+}
+
+.help-inline{
+display:none;
+}
+
+.Wt-auth-logged-in{
+width:150px;
+margin-left:auto;
+}
+
+input[type=radio] {
+display:none;
+}
+ 
+input[type=radio] 
+{
+background: #999;
+height: 20px;
+width: 20px;
+display:inline-block;
+padding: 0 0 0 0px;
+}
+input[type=radio]:checked{
+background: #0080FF;
+height: 20px;
+width: 20px;
+display:inline-block;
+padding: 0 0 0 0px;
+}
+
+.post-title-admin{
+margin-left:25px;
+}
+
+.post-view-admin{
+padding-top:10px;
+padding-bottom:10px;
+}
+
+.post-view-admin input[type="radio"]{
+margin:-25px 0 0 -20px;
+}
+
+.category-filter{
+display:block;
+width:100px;
+margin:auto;
 }

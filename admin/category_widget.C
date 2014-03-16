@@ -22,9 +22,11 @@ CategoryWidget::CategoryWidget(WContainerWidget *parent)
    
    new WText("Add new", this);
    categoryEdit = new WLineEdit(this);
+   categoryEdit->setStyleClass("textbox");
 
    saveCategory = new WPushButton("Add", this);
    saveCategory->clicked().connect(this, &CategoryWidget::checkCategory);
+   saveCategory->setStyleClass("button");
 }
 
 void CategoryWidget::getCategory()

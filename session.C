@@ -58,7 +58,7 @@ session::session()
    setConnection(connection_);
 
    mapClass<user>("user");
-   mapClass<Token>("auth_token");
+   mapClass<Token>("token");
    mapClass<Post>("post");
    mapClass<Category>("category");
    try {

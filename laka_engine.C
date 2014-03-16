@@ -14,6 +14,8 @@
 
 #include <Wt/WLink>
 #include <Wt/WStackedWidget>
+#include <Wt/WBootstrapTheme>
+
 
 string mainTemplate;
 
@@ -21,6 +23,7 @@ LakaEngine::LakaEngine(const WEnvironment &env)
     :WApplication(env)
 {
    useStyleSheet("themes/yanni/style.css");
+   setTheme(new WBootstrapTheme());
 
    cout<<"__________title_______"<<titleString<<endl;
    cout<<"_________tagline______"<<taglineString<<endl;
@@ -32,7 +35,7 @@ LakaEngine::LakaEngine(const WEnvironment &env)
    taglineString="Give a height to your thoughts";
    
    setTitle(titleString);
-   useStyleSheet("resources/default.css");
+
    clicked = false;
 
    container = new WContainerWidget(root());
@@ -48,6 +51,7 @@ LakaEngine::LakaEngine(const WEnvironment &env)
    headerPanel->setTitle("Admin Section");
    headerPanel->setCentralWidget(headerContainer);
    headerPanel->setCollapsible(true);
+
    headerPanel->setCollapsed(false);
    WAnimation animation(WAnimation::SlideInFromTop, WAnimation::EaseOut, 100);
    headerPanel->setAnimation(animation);

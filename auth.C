@@ -11,7 +11,7 @@ AuthForm::AuthForm(WContainerWidget *parent)
    authwidget = new Auth::AuthWidget(session::auth(), session_.users(), session_.login());
 
    authwidget->model()->addPasswordAuth(session_.passwordAuth());
-   authwidget->setRegistrationEnabled(true);
+
 
    authwidget->processEnvironment();
 

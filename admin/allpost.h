@@ -11,14 +11,19 @@
 #include <Wt/WTemplate>
 #include <Wt/WTextArea>
 #include <Wt/WLineEdit>
+#include <Wt/WButtonGroup>
+#include <Wt/WRadioButton>
+#include <Wt/WJavaScript>
+
+#include <Wt/WApplication>
 
 #include "../post.h"
 #include "../global.h"
-//#include "../themes/yanni/style.css"
 
 using namespace Wt;
 namespace dbo=Wt::Dbo;
 using namespace std;
+
 //! Class providing widgets required for edditing and deleting posts
 class allPost:public WContainerWidget
 {
@@ -30,15 +35,17 @@ public:
    //! Function which open a editor for editing
    void edit();
    //! Function which updates to database
-   void update();
+   void update(std::string postupdatestr);
    //! Function which gives warning before deletion
    void postDelete();
    //! Function which deletes da post from database
    void deleted();
+   void getupdate();
+
    session session_;
 private:
    //! vector which show checkBoxes
-   vector <WCheckBox*> linkCollection;
+  // vector <WCheckBox*> linkCollection;
    //! variable which store selectedPost
    string selectedPost;
    //! variable which store all the posts
@@ -46,10 +53,12 @@ private:
    //! TextArea for the content
    WTextArea *updateContent;
    //! containers
-   WContainerWidget *allContainer,*updateContainer,*container,*containerDelete;
+   WContainerWidget *allContainer,*updateContentEditor, *updateContainer,*container,*containerDelete;
    //! checkBox which show title
-   WCheckBox* link;
+   WRadioButton* link;
+   WButtonGroup* linkGroup;
 
+   JSignal<std::string> postContent;
    WLineEdit *updateName,*updateDate,*updateTime;
 
    WPushButton *editButton,*deleteButton,*updateButton,*yes,*cancel;
