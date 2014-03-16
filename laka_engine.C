@@ -52,7 +52,7 @@ LakaEngine::LakaEngine(const WEnvironment &env)
    headerPanel->setCentralWidget(headerContainer);
    headerPanel->setCollapsible(true);
 
-   headerPanel->setCollapsed(false);
+  headerPanel->setCollapsed(true);
    WAnimation animation(WAnimation::SlideInFromTop, WAnimation::EaseOut, 100);
    headerPanel->setAnimation(animation);
 
@@ -74,6 +74,7 @@ void LakaEngine::handlePathChange()
    if(path == "/")
     {
        container->clear();
+
        postLoop = new PostLoop(container);
        main->bindWidget("postloop",   postLoop);
     }

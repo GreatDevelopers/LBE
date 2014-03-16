@@ -35,7 +35,7 @@ public:
    //! Function which open a editor for editing
    void edit();
    //! Function which updates to database
-   void update(std::string postupdatestr);
+   void update();
    //! Function which gives warning before deletion
    void postDelete();
    //! Function which deletes da post from database
@@ -62,6 +62,8 @@ private:
    WLineEdit *updateName,*updateDate,*updateTime;
 
    WPushButton *editButton,*deleteButton,*updateButton,*yes,*cancel;
+
+   mutable dbo::ptr<Post> post_;
  
 };
 #endif

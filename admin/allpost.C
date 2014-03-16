@@ -60,32 +60,32 @@ void allPost::edit()
     updateContainer= new WContainerWidget(this);
     updateName=new WLineEdit(allPostPtr->postName,updateContainer);
     new WBreak(updateContainer);
-    //updateContent =new WTextArea(allPostPtr->postContent,updateContainer);
-    //updateContent ->setStyleClass("updateContent");
-    //new WBreak(updateContainer);
-    //updateDate=new WLineEdit(allPostPtr->postDate,updateContainer);
+    updateContent =new WTextArea(allPostPtr->postContent,updateContainer);
+    updateContent ->setStyleClass("updateContent");
+    new WBreak(updateContainer);
+    updateDate=new WLineEdit(allPostPtr->postDate,updateContainer);
 
-    WApplication::instance()->require("../resources/epic_editor/js/epiceditor.js");
-    std::stringstream strm;
-    strm<<"var editor = new EpicEditor().load();";
-    WApplication::instance()->doJavaScript(strm.str());
+    //WApplication::instance()->require("../resources/epic_editor/js/epiceditor.js");
+    //std::stringstream strm;
+    //strm<<"var editor = new EpicEditor().load();";
+    //WApplication::instance()->doJavaScript(strm.str());
 
-    updateContentEditor = new WContainerWidget(this);
-    updateContentEditor->setId("epiceditor");
+    //updateContentEditor = new WContainerWidget(this);
+    //updateContentEditor->setId("epiceditor");
 
 
     updateButton=new WPushButton("update",updateContainer);
-    updateButton->clicked().connect(this,&allPost::getupdate);
+    updateButton->clicked().connect(this,&allPost::update);
     t.commit();
 }
 }
-
+/*
 void allPost::getupdate()
 { 
     std::stringstream strm2;
     strm2<<postContent.createCall("editor.getElement('previewer').getElementById('epiceditor-preview').innerHTML");
     WApplication::instance()->doJavaScript(strm2.str());  
-}
+}*/
 
 void allPost::postDelete()
 {
@@ -108,20 +108,30 @@ void allPost::deleted()
      new WBreak(this);
      new WText("Post is deleted successfully",this);    
     dbo::Transaction t(session_);
+    //post_ = session_.query< dbo::ptr<Post> >("DELETE FROM post WHERE permalink=?").bind(selectedPost);
+    session_.execute("delete from post where permalink = ?").bind(selectedPost);
+    //dbo::ptr<Post> allPostPtr = session_.find<Post>.where("permalink = ?").bind(selectedPost);
+    //dbo::ptr<Post> allPostPtr= session_.find<Post>().where("permalink = ?").bind(selectedPost);
+
+    try{	
     dbo::ptr<Post> allPostPtr= session_.find<Post>().where("permalink=?").bind(selectedPost);
-    allPostPtr.remove();
+    std::string a = allPostPtr->permalink;
+    }
+    catch(std::exception &e){
+    cout<<"deleted_________________________________";
+   }
     t.commit();
 }
 
-void allPost::update(std::string postupdatestr)
+void allPost::update()
 {
     updateContainer->hide();
- 
+    container->show(); 
     dbo::Transaction t(session_);
     dbo::ptr<Post> allPostPtr= session_.find<Post>().where("permalink = ?").bind(selectedPost);
     allPostPtr.modify()->postName    =  updateName->text().toUTF8();
     allPostPtr.modify()->postDate    =  updateDate->text().toUTF8();
-    allPostPtr.modify()->postContent =  postupdatestr;
+    allPostPtr.modify()->postContent =  updateContent->text().toUTF8(); 
     t.commit();
     new WBreak(this);
     new WText("Post is updated sucessfully",this);

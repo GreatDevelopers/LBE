@@ -179,3 +179,10 @@ display:block;
 width:100px;
 margin:auto;
 }
+
+.updateContent{
+width:450px;
+height:250px;
+background-color:#000;
+color:#fff;
+}
