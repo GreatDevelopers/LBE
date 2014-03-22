@@ -23,7 +23,7 @@ typedef dbo::collection< dbo::ptr<Post> > PostCollection;
 typedef dbo::collection< dbo::ptr<Category> > CategoryCollection;
 
 class Post {
-public: string postName, postContent, permalink, postDate;
+public: string postName, postContent, permalink, postDate, status;
 
    CategoryCollection categories;
 	template<class Action>
@@ -32,6 +32,7 @@ public: string postName, postContent, permalink, postDate;
         dbo::field(a, postDate,    "postdate");
 	dbo::field(a, permalink,   "permalink");
 	dbo::field(a, postContent, "postcontent");
+	dbo::field(a, status,      "status");
 
 	dbo::hasMany(a, categories, dbo::ManyToMany, "postCategories");
 	}

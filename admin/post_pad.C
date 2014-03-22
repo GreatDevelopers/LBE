@@ -60,12 +60,13 @@ void PostPad :: storePost(std::string postContentStr)
     if(!published)
     {
     {
-       dbo::Transaction t(session_);	
+       dbo::Transaction t(session_);
        Post *newPost = new Post();
        newPost->postName    = postTitle->text().toUTF8();
        newPost->postContent = postContentStr;
        newPost->permalink   = "/" + postLink->text().toUTF8();
        newPost->postDate    = dateEdit->text().toUTF8();
+       newPost->status      = "published";
        postPtr = session_.add(newPost);
        t.commit();
     }

@@ -24,7 +24,7 @@ PostLoop::PostLoop(WContainerWidget *parent)
     categoryCollection = new WContainerWidget(this);
     {
       dbo::Transaction T(session_);
-      allPosts = session_.find<Post>();
+      allPosts = session_.find<Post>().where(" status = ?").bind("published");
       theLoop();
       T.commit();
     }
@@ -51,7 +51,7 @@ void PostLoop::theLoop()
           category = new WAnchor(WLink(WLink::InternalPath, k->categoryLink), k->categoryname + " ", postContainer);
           category->setStyleClass("category-filter");
         }
-     }
+      }
 
 }
 

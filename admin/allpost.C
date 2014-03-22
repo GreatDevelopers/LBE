@@ -14,7 +14,7 @@ License: GNU GPL V3
 
 allPost::allPost(WContainerWidget *parent)
        :WContainerWidget(parent),
-	postContent(this, "getPostContent")
+        delete_post(false)
 {
     allContainer =new WContainerWidget(this);
     {
@@ -26,12 +26,11 @@ allPost::allPost(WContainerWidget *parent)
        deleteButton->clicked().connect(this,&allPost::postDelete);
 
        dbo::Transaction T(session_);
-       storedPost = session_.find<Post>();
+       storedPost = session_.find<Post>().where("status = ?").bind("published");
        allLoop();
 
        T.commit();
      }
-    postContent.connect(this, &allPost::update);
 }
 
 void allPost::allLoop()
@@ -45,7 +44,7 @@ void allPost::allLoop()
       new WBreak(container);
       link=new WRadioButton(i->permalink,container);
       linkGroup->addButton(link);
-    }
+   }
 }
 
 void allPost::edit()
@@ -57,6 +56,11 @@ void allPost::edit()
     dbo::Transaction t(session_);
     dbo::ptr<Post> allPostPtr= session_.find<Post>().where("permalink = ?").bind(selectedPost);
    
+    if(delete_post){
+       allPostPtr.modify()->status = "deleted";
+       new WText("Post deleted", this);
+     }
+    else{
     updateContainer= new WContainerWidget(this);
     updateName=new WLineEdit(allPostPtr->postName,updateContainer);
     new WBreak(updateContainer);
@@ -76,6 +80,7 @@ void allPost::edit()
 
     updateButton=new WPushButton("update",updateContainer);
     updateButton->clicked().connect(this,&allPost::update);
+    }
     t.commit();
 }
 }
@@ -102,25 +107,8 @@ void allPost::postDelete()
 
 void allPost::deleted()
 {
-     containerDelete->hide();
-     WRadioButton *selectedbtn = linkGroup->checkedButton();
-     string selectedpost = selectedbtn->text().toUTF8();
-     new WBreak(this);
-     new WText("Post is deleted successfully",this);    
-    dbo::Transaction t(session_);
-    //post_ = session_.query< dbo::ptr<Post> >("DELETE FROM post WHERE permalink=?").bind(selectedPost);
-    session_.execute("delete from post where permalink = ?").bind(selectedPost);
-    //dbo::ptr<Post> allPostPtr = session_.find<Post>.where("permalink = ?").bind(selectedPost);
-    //dbo::ptr<Post> allPostPtr= session_.find<Post>().where("permalink = ?").bind(selectedPost);
-
-    try{	
-    dbo::ptr<Post> allPostPtr= session_.find<Post>().where("permalink=?").bind(selectedPost);
-    std::string a = allPostPtr->permalink;
-    }
-    catch(std::exception &e){
-    cout<<"deleted_________________________________";
-   }
-    t.commit();
+    delete_post = true;
+    edit();
 }
 
 void allPost::update()
@@ -128,7 +116,9 @@ void allPost::update()
     updateContainer->hide();
     container->show(); 
     dbo::Transaction t(session_);
+    
     dbo::ptr<Post> allPostPtr= session_.find<Post>().where("permalink = ?").bind(selectedPost);
+
     allPostPtr.modify()->postName    =  updateName->text().toUTF8();
     allPostPtr.modify()->postDate    =  updateDate->text().toUTF8();
     allPostPtr.modify()->postContent =  updateContent->text().toUTF8(); 

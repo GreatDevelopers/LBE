@@ -6,16 +6,10 @@
 #include <sstream>
 #include <string>
 #include <Wt/WPushButton>
-#include <Wt/WAnchor>
-#include <Wt/WCheckBox>
-#include <Wt/WTemplate>
 #include <Wt/WTextArea>
 #include <Wt/WLineEdit>
 #include <Wt/WButtonGroup>
 #include <Wt/WRadioButton>
-#include <Wt/WJavaScript>
-
-#include <Wt/WApplication>
 
 #include "../post.h"
 #include "../global.h"
@@ -52,18 +46,16 @@ private:
    PostCollection storedPost;
    //! TextArea for the content
    WTextArea *updateContent;
+   bool delete_post;
    //! containers
    WContainerWidget *allContainer,*updateContentEditor, *updateContainer,*container,*containerDelete;
    //! checkBox which show title
    WRadioButton* link;
    WButtonGroup* linkGroup;
 
-   JSignal<std::string> postContent;
    WLineEdit *updateName,*updateDate,*updateTime;
 
    WPushButton *editButton,*deleteButton,*updateButton,*yes,*cancel;
-
-   mutable dbo::ptr<Post> post_;
  
 };
 #endif

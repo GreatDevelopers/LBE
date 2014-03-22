@@ -10,6 +10,9 @@ user.o: user.C
 token.o: token.C
 	g++ -g -Wall -c token.C
 
+#trash.o: admin/trash.C
+#	g++ -g -Wall -c admin/trash.C
+
 BlogUserDatabase.o: BlogUserDatabase.C
 	g++ -std=c++0x -g -Wall -c BlogUserDatabase.C
 

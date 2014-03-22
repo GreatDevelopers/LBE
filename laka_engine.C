@@ -3,7 +3,7 @@
 
  Purpose : main app file of Laka Engine 
 
- Authors: Gauravjeet Singh, Shaina Sabarwal, Inderpreet Singh, Amitoj Singh
+ Authors: Gauravjeet Singh, Shaina Sabarwal, Inderpreet Singh, Amitoj Singh, Harinder Singh, Ramanjot Singh
 
  License : GNU GPL V3
 
